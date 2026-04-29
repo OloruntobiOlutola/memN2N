@@ -29,7 +29,7 @@ Orsay, 91400, France
 \maketitle
 
 \begin{abstract}
-End-to-End Memory Networks (MemN2N) \citep{sukhbaatar2015end} address multi-step reasoning over text by pairing an external memory with a differentiable, multi-hop attention mechanism trained entirely through backpropagation. We present a PyTorch re-implementation evaluated on the bAbI question-answering benchmark \citep{weston2015towards}, together with a semi-supervised extension that uses supporting-fact annotations to guide hop-1 attention during training. Our baseline reproduces the core architectural choices of the original paper --- position encoding, temporal encoding, adjacent weight tying, and the Linear Start schedule --- and achieves a mean test error of 10.8\% across all 20 tasks, compared to 6.6\% in the paper, with most of the gap concentrated on a small set of hard tasks. We then ask a more targeted question: when the model fails on a task, is it because it is attending to the wrong sentences? We test this by supervising the attention on Tasks 16, 17, and 19 at four labeling rates (0--50\%). The answer depends entirely on the task: supervision nearly solves Task 16, slightly hurts Task 17, and does nothing for Task 19 --- revealing that these three tasks fail for fundamentally different reasons.
+End-to-End Memory Networks (MemN2N) \citep{sukhbaatar2015end} address multi-step reasoning over text by pairing an external memory with a differentiable, multi-hop attention mechanism trained entirely through backpropagation. We present a PyTorch re-implementation evaluated on the bAbI question-answering benchmark \citep{weston2015towards}, together with a semi-supervised extension that uses supporting-fact annotations to guide hop-1 attention during training. Our MemN2N implementation reproduces the core architectural choices of the original paper which includes position encoding, temporal encoding, adjacent weight tying, and the Linear Start schedule, and achieves a mean test error of 10.8\% across all 20 tasks, compared to 6.6\% in the paper, with most of the gap concentrated on a small set of hard tasks. We then ask a more targeted question: when the model fails on a task, is it because it is attending to the wrong sentences? We test this by supervising the attention on Tasks 16, 17, and 19 at four labeling rates (0--50\%). The answer depends entirely on the task: supervision nearly solves Task 16, slightly hurts Task 17, and does nothing for Task 19, revealing that these three tasks fail for fundamentally different reasons.
 \end{abstract}
 
 % ─────────────────────────────────────────────────────────────────
@@ -61,13 +61,13 @@ The second question matters because it probes \emph{why} a task is hard. If a mo
 Memory Networks \citep{weston2014memory} were the first architecture to pair a neural module with an explicit, addressable memory store. They showed strong results on bAbI but required strong supervision: the model was told during training which memory entries were relevant at each step. MemN2N \citep{sukhbaatar2015end} relaxed this by making the memory reads fully differentiable, removing the need for intermediate supervision and making the model trainable end-to-end. A parallel line of work, Neural Turing Machines \citep{graves2014neural}, uses a more general differentiable memory with both read and write heads, enabling algorithmic tasks that go beyond QA, at the cost of significantly higher complexity. In comparison, MemN2N's read-only design is simpler and more suitable for reproducibility studies on structured QA.
 
 \paragraph{Attention mechanisms.}
-The soft attention over memory in MemN2N is closely related to the alignment mechanism introduced for neural machine translation by \citet{bahdanau2015neural}. In both cases, a query vector computes a compatibility score with each element of a set (memory slots or encoder hidden states), and the result is a weighted sum used downstream. MemN2N extends this with multiple attention rounds (hops), allowing the model to iteratively refine which part of the memory it focuses on --- similar in spirit to the iterative passage reading in later comprehension models.
+The soft attention over memory in MemN2N is closely related to the alignment mechanism introduced for neural machine translation by \citet{bahdanau2015neural}. In both cases, a query vector computes a compatibility score with each element of a set (memory slots or encoder hidden states), and the result is a weighted sum used downstream. MemN2N extends this with multiple attention rounds (hops), allowing the model to iteratively refine which part of the memory it focuses on, similar in spirit to the iterative passage reading in later comprehension models.
 
 \paragraph{Iterative memory networks.}
 Dynamic Memory Networks \citep{kumar2016ask} are a more expressive successor to MemN2N: they encode sentences with an RNN rather than a bag-of-words, and use a gating mechanism at each memory pass. This gives stronger performance on several bAbI tasks, particularly those sensitive to word order, but at higher computational cost. Our work deliberately stays with the simpler MemN2N to study the specific effect of attention supervision without confounding factors from the encoder.
 
 \paragraph{Semi-supervised learning in NLP.}
-Using partially labeled data to guide a model's internal representations is a common idea in NLP. Self-training, consistency regularization, and auxiliary losses have all been applied to sequence labeling and reading comprehension. The closest work to ours is the original Memory Networks paper, where supporting-fact labels were used at training time to guide memory reads via a max-margin loss. We revisit this idea in a softer form --- a KL-divergence auxiliary loss applied only to labeled examples --- to measure how much guidance is needed and for which tasks.
+Using partially labeled data to guide a model's internal representations is a common idea in NLP. Self-training, consistency regularization, and auxiliary losses have all been applied to sequence labeling and reading comprehension. The closest work to ours is the original Memory Networks paper, where supporting-fact labels were used at training time to guide memory reads via a max-margin loss. We revisit this idea in a softer form. We applied a KL-divergence auxiliary loss only to labeled examples to measure how much guidance is needed and for which tasks.
 
 
 % ─────────────────────────────────────────────────────────────────
@@ -93,7 +93,7 @@ p_i^k = \mathrm{Softmax}\!\left({u^k}^\top m_i^k\right), \qquad o^k = \sum_i p_i
 \]
 The final answer prediction is $\hat{a} = \mathrm{Softmax}(W\, u^{K+1})$, where $W^\top = C^K$ under adjacent tying.
 
-\paragraph{Encodings.} Sentence vectors are formed with \emph{position encoding}: each word embedding is scaled by a learned position-dependent coefficient before summing, so that word order affects the memory representation. We add \emph{temporal encodings} $T_A$, $T_C$ --- one embedding per memory slot --- to give the model a sense of which sentences occurred earlier or later in the story.
+\paragraph{Encodings.} Sentence vectors are formed with \emph{position encoding}: each word embedding is scaled by a learned position-dependent coefficient before summing, so that word order affects the memory representation. We add \emph{temporal encodings} $T_A$, $T_C$ one embedding per memory slot to give the model a sense of which sentences occurred earlier or later in the story.
 
 \paragraph{Linear Start (LS).} We train without the attention softmax for the first 20 epochs. Without this schedule, the softmax produces near-uniform attention at initialization and the gradient signal is too weak for the embeddings to separate. Removing LS causes Task~1 error to remain above 80\% throughout training.
 
@@ -157,12 +157,13 @@ Batch size & 32 & 32 \\
 Epochs & 100 & 100 \\
 Linear Start & 20 epochs & --- \\
 Random Noise & 10\% slots zeroed & --- \\
+Memory size cap & 50 slots (150 for Task~3) & --- \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \paragraph{Semi-supervised experiment.}
-We evaluate the semi-supervised model on Tasks 16, 17, and 19. These three tasks represent qualitatively different failure modes of the unsupervised baseline (51.2\%, 41.6\%, and 58.6\% error respectively) and provide a natural test of the hypothesis that attention supervision helps only when the bottleneck is attentional. We test four labeling ratios: 0\%, 10\%, 25\%, and 50\% of training examples receive supporting-fact annotations. The auxiliary weight is $\lambda = 0.5$. Memory size is capped using per-task values from the paper (50 slots by default; 150 for Task~3).
+We evaluate the semi-supervised model on Tasks 16, 17, and 19. These three tasks represent qualitatively different failure modes of the unsupervised baseline (51.2\%, 41.6\%, and 58.6\% error respectively) and provide a natural test of the hypothesis that attention supervision helps only when the bottleneck is attentional. We test four labeling ratios: 0\%, 10\%, 25\%, and 50\% of training examples receive supporting-fact annotations. The auxiliary weight is $\lambda = 0.5$.
 
 \begin{table}[h]
 \centering
@@ -248,10 +249,10 @@ The training behaviour is consistent with what the paper reports: the Linear Sta
 \end{figure}
 
 \paragraph{Why does Task 16 fail?}
-Task 16 (basic induction) asks the model to identify a pattern from a small set of examples (e.g.\ ``Wolves are afraid of cats. Cats are afraid of mice.'' $\rightarrow$ ``What are wolves afraid of?''). The paper achieves 0\% error on this task with MemN2N PE+LS using 10k training. Our single-run baseline gives 51.2\% --- essentially random guessing. The failure is not due to insufficient reasoning capacity; a 3-hop model is enough in principle. The more likely explanation is that the rule sentence is hard to locate without some guidance on where to look.
+Task 16 (basic induction) asks the model to identify a pattern from a small set of examples (e.g.\ ``Wolves are afraid of cats. Cats are afraid of mice.'' $\rightarrow$ ``What are wolves afraid of?''). The paper achieves 0\% error on this task with MemN2N PE+LS using 10k training. Our single-run baseline gives 51.2\% which is essentially random guessing. The failure is not due to insufficient reasoning capacity; a 3-hop model is enough in principle. The more likely explanation is that the rule sentence is hard to locate without some guidance on where to look.
 
 \paragraph{Why does Task 19 fail?}
-Task 19 (path finding) requires chaining a path of 5 or more locations together, but our 3-hop model can at most chain 3 steps. The paper's 66.5\% error on this task confirms the architecture is under-powered, and our 58.6\% is actually slightly better --- likely because the paper's stronger regularization forces the model to generalize, while our single-task training allows some memorization.
+Task 19 (path finding) requires chaining a path of 5 or more locations together, but our 3-hop model can at most chain 3 steps. The paper's 66.5\% error on this task confirms the architecture is under-powered, and our 58.6\% is actually slightly better likely because the paper's stronger regularization forces the model to generalize, while our single-task training allows some memorization.
 
 \subsection{Semi-Supervised Results}
 
@@ -275,14 +276,14 @@ The semi-supervised results in Table~\ref{tab:ss_results} and Figure~\ref{fig:ss
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.92\linewidth]{images/output.png}
+\includegraphics[width=0.92\linewidth]{images/semi-supervised-train.png}
 \end{center}
-\caption{Semi-supervised test error as a function of labeled ratio for Tasks 16, 17, and 19. The dotted line is the unsupervised MemN2N baseline. Task 16 drops sharply at 25\% labeled; Tasks 17 and 19 increase, suggesting that attention supervision hurts when the bottleneck is not attentional.}
+\caption{Semi-supervised training curves for Tasks 16, 17, and 19 at each labeling ratio. Task 16 converges to near-zero error once labeled support exceeds 25\%; Tasks 17 and 19 show no benefit from supervision, reflecting representational and architectural bottlenecks rather than an attentional one.}
 \label{fig:ss}
 \end{figure}
 
 \paragraph{Task 16 --- supervision nearly solves it.}
-At 25\% labeled, error drops from 51.2\% to 0.4\% --- matching the paper's 0.0\%. The improvement is sharp and appears between 10\% and 25\% labeled, suggesting there is a critical mass of annotated examples below which the model cannot reliably learn where the rule sentence is, but above which it converges cleanly. The attention visualization in Figure~\ref{fig:attn} shows that the supervised model (50\% labeled) concentrates its hop-1 attention on the induction rule sentence, while the unsupervised model spreads it almost uniformly across all sentences.
+At 25\% labeled, error drops from 51.2\% to 0.4\% very close to matching the paper's 0.0\%. The improvement is sharp and appears between 10\% and 25\% labeled, suggesting there is a critical mass of annotated examples below which the model cannot reliably learn where the rule sentence is, but above which it converges cleanly. The attention visualization in Figure~\ref{fig:attn} shows that the supervised model (50\% labeled) concentrates its hop-1 attention on the induction rule sentence, while the unsupervised model spreads it almost uniformly across all sentences.
 
 \begin{figure}[h]
 \begin{center}

@@ -65,10 +65,10 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Semi-Supervised Results}{7}{subsection.5.2}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Semi-Supervised MemN2N test error (\%) on Tasks 16, 17, and 19. \textbf  {MemN2N} is the unsupervised baseline from Section~6. \textbf  {0\%--50\%} are the mean test errors over 3 runs at each labeling ratio. \textbf  {Paper} is the MemN2N PE+LS result from \citet  {sukhbaatar2015end}.}}{7}{table.4}\protected@file@percent }
 \newlabel{tab:ss_results}{{4}{7}{Semi-Supervised MemN2N test error (\%) on Tasks 16, 17, and 19. \textbf {MemN2N} is the unsupervised baseline from Section~6. \textbf {0\%--50\%} are the mean test errors over 3 runs at each labeling ratio. \textbf {Paper} is the MemN2N PE+LS result from \citet {sukhbaatar2015end}}{table.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Semi-supervised test error as a function of labeled ratio for Tasks 16, 17, and 19. The dotted line is the unsupervised MemN2N baseline. Task 16 drops sharply at 25\% labeled; Tasks 17 and 19 increase, suggesting that attention supervision hurts when the bottleneck is not attentional.}}{7}{figure.5}\protected@file@percent }
-\newlabel{fig:ss}{{5}{7}{Semi-supervised test error as a function of labeled ratio for Tasks 16, 17, and 19. The dotted line is the unsupervised MemN2N baseline. Task 16 drops sharply at 25\% labeled; Tasks 17 and 19 increase, suggesting that attention supervision hurts when the bottleneck is not attentional}{figure.5}{}}
-\@writefile{toc}{\contentsline {paragraph}{Task 16 --- supervision nearly solves it.}{7}{section*.15}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Semi-supervised training curves for Tasks 16, 17, and 19 at each labeling ratio. Task 16 converges to near-zero error once labeled support exceeds 25\%; Tasks 17 and 19 show no benefit from supervision, reflecting representational and architectural bottlenecks rather than an attentional one.}}{7}{figure.5}\protected@file@percent }
+\newlabel{fig:ss}{{5}{7}{Semi-supervised training curves for Tasks 16, 17, and 19 at each labeling ratio. Task 16 converges to near-zero error once labeled support exceeds 25\%; Tasks 17 and 19 show no benefit from supervision, reflecting representational and architectural bottlenecks rather than an attentional one}{figure.5}{}}
 \citation{sukhbaatar2015end}
+\@writefile{toc}{\contentsline {paragraph}{Task 16 --- supervision nearly solves it.}{8}{section*.15}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Hop-by-hop attention heatmaps for a Task~16 test example. Left: unsupervised model (attention is diffuse). Right: semi-supervised model with 50\% labeled training examples (attention is sharply concentrated on the induction rule sentence at hop 1). Supporting fact sentences are highlighted in green.}}{8}{figure.6}\protected@file@percent }
 \newlabel{fig:attn}{{6}{8}{Hop-by-hop attention heatmaps for a Task~16 test example. Left: unsupervised model (attention is diffuse). Right: semi-supervised model with 50\% labeled training examples (attention is sharply concentrated on the induction rule sentence at hop 1). Supporting fact sentences are highlighted in green}{figure.6}{}}
 \@writefile{toc}{\contentsline {paragraph}{Task 17 --- supervision hurts slightly.}{8}{section*.16}\protected@file@percent }
@@ -76,7 +76,6 @@
 \@writefile{toc}{\contentsline {paragraph}{What the 0\% labeled condition reveals.}{8}{section*.18}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{8}{section.6}\protected@file@percent }
 \newlabel{sec:conclusion}{{6}{8}{Conclusion}{section.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Limitations.}{8}{section*.19}\protected@file@percent }
 \bibstyle{iclr2025_conference}
 \bibdata{iclr2025_conference}
 \bibcite{bahdanau2015neural}{{1}{2015}{{Bahdanau et~al.}}{{Bahdanau, Cho, and Bengio}}}
@@ -86,5 +85,6 @@
 \bibcite{sukhbaatar2015end}{{5}{2015}{{Sukhbaatar et~al.}}{{Sukhbaatar, Weston, Fergus, et~al.}}}
 \bibcite{weston2014memory}{{6}{2014}{{Weston et~al.}}{{Weston, Chopra, and Bordes}}}
 \bibcite{weston2015towards}{{7}{2015}{{Weston et~al.}}{{Weston, Bordes, Chopra, Rush, Van~Merri{\"e}nboer, Joulin, and Mikolov}}}
+\@writefile{toc}{\contentsline {paragraph}{Limitations.}{9}{section*.19}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Future directions.}{9}{section*.20}\protected@file@percent }
 \gdef \@abspage@last{9}

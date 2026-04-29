@@ -81,23 +81,23 @@
 
 % Title (includes both anonimized and non-anonimized versions)
 \def\@maketitle{\vbox{\hsize\textwidth
-%\linewidth\hsize \vskip 0.1in \toptitlebar \centering
+\centering
 {\LARGE\sc \@title\par}
-%\bottomtitlebar % \vskip 0.1in %  minus
+\vskip 0.1in
 \ificlrfinal
     \lhead{Published as a conference paper at ICLR 2025}
     \def\And{\end{tabular}\hfil\linebreak[0]\hfil
-            \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\ignorespaces}%
+            \begin{tabular}[t]{c}\bf\rule{\z@}{24pt}\ignorespaces}%
   \def\AND{\end{tabular}\hfil\linebreak[4]\hfil
-            \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\ignorespaces}%
-    \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\@author\end{tabular}%
+            \begin{tabular}[t]{c}\bf\rule{\z@}{24pt}\ignorespaces}%
+    \begin{tabular}[t]{c}\bf\rule{\z@}{24pt}\@author\end{tabular}%
 \else
        \lhead{Under review as a conference paper at ICLR 2025}
    \def\And{\end{tabular}\hfil\linebreak[0]\hfil
-            \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\ignorespaces}%
+            \begin{tabular}[t]{c}\bf\rule{\z@}{24pt}\ignorespaces}%
   \def\AND{\end{tabular}\hfil\linebreak[4]\hfil
-            \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\ignorespaces}%
-    \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}Anonymous authors\\Paper under double-blind review\end{tabular}%
+            \begin{tabular}[t]{c}\bf\rule{\z@}{24pt}\ignorespaces}%
+    \begin{tabular}[t]{c}\bf\rule{\z@}{24pt}Anonymous authors\\Paper under double-blind review\end{tabular}%
 \fi
 \vskip 0.3in minus 0.1in}}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.27)  29 APR 2026 20:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.27)  29 APR 2026 22:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -411,12 +411,8 @@ Package hyperref Info: Link coloring OFF on input line 27.
 \@outlinefile=\write3
 \openout3 = `iclr2025_conference.out'.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 30--30
-[]\OT1/ptm/m/sc/17.28 End-To-End Mem-ory Net-works: Re-
- []
-
 LaTeX Font Info:    Trying to load font information for U+msa on input line 30.
+
 
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -461,7 +457,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <images/baseline_comparison.png, id=137, 1148.3703pt x 711.8595pt>
 File: images/baseline_comparison.png Graphic file (type png)
 <use images/baseline_comparison.png>
-Package pdftex.def Info: images/baseline_comparison.png  used on input line 234
+Package pdftex.def Info: images/baseline_comparison.png  used on input line 235
 .
 (pdftex.def)             Requested size: 349.78873pt x 216.82898pt.
 
@@ -470,7 +466,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <images/training_baseline.png, id=139, 1003.8303pt x 322.3242pt>
 File: images/training_baseline.png Graphic file (type png)
 <use images/training_baseline.png>
-Package pdftex.def Info: images/training_baseline.png  used on input line 244.
+Package pdftex.def Info: images/training_baseline.png  used on input line 245.
 (pdftex.def)             Requested size: 349.78873pt x 112.31349pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -479,19 +475,21 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 Underfull \vbox (badness 2707) has occurred while \output is active []
 
  [6 <./images/baseline_comparison.png>]
-<images/output.png, id=166, 1003.8303pt x 322.3242pt>
-File: images/output.png Graphic file (type png)
-<use images/output.png>
-Package pdftex.def Info: images/output.png  used on input line 278.
-(pdftex.def)             Requested size: 365.68546pt x 117.41866pt.
- [7 <./images/training_baseline.png> <./images/output.png>]
-<images/attention_semi_supervised.png, id=179, 927.9468pt x 289.8027pt>
+<images/semi-supervised-train.png, id=166, 857.8449pt x 298.4751pt>
+File: images/semi-supervised-train.png Graphic file (type png)
+<use images/semi-supervised-train.png>
+Package pdftex.def Info: images/semi-supervised-train.png  used on input line 2
+79.
+(pdftex.def)             Requested size: 365.68546pt x 127.23508pt.
+ [7 <./images/training_baseline.png> <./images/semi-supervised-train.png>]
+<images/attention_semi_supervised.png, id=178, 927.9468pt x 289.8027pt>
 File: images/attention_semi_supervised.png Graphic file (type png)
 <use images/attention_semi_supervised.png>
 Package pdftex.def Info: images/attention_semi_supervised.png  used on input li
-ne 289.
+ne 290.
 (pdftex.def)             Requested size: 357.73405pt x 111.72252pt.
- [8 <./images/attention_semi_supervised.png>] (./iclr2025_conference.bbl
+ [8 <./images/attention_semi_supervised.png>]
+(./iclr2025_conference.bbl
 Underfull \hbox (badness 1436) in paragraph at lines 41--44
 []\OT1/ptm/m/n/10 Jason We-ston, Sumit Chopra, and An-toine Bor-des.  Mem-ory n
 et-works.  \OT1/ptm/m/it/10 arXiv preprint
@@ -507,12 +505,12 @@ Package rerunfilecheck Info: File `iclr2025_conference.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  11210 strings out of 469006
- 165878 string characters out of 5454813
- 602612 words of memory out of 5000000
+ 165983 string characters out of 5454813
+ 602627 words of memory out of 5000000
  39675 multiletter control sequences out of 15000+600000
  657258 words of font info for 101 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 75i,12n,90p,1276b,529s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,90p,1294b,529s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex1
 0.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/
@@ -526,7 +524,7 @@ ublic/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type
 rw/times/utmb8a.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/urw/ti
 mes/utmr8a.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/urw/times/u
 tmri8a.pfb>
-Output written on iclr2025_conference.pdf (9 pages, 559241 bytes).
+Output written on iclr2025_conference.pdf (9 pages, 539125 bytes).
 PDF statistics:
  267 PDF objects out of 1000 (max. 8388607)
  213 compressed objects within 3 object streams

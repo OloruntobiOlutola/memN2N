@@ -33,49 +33,38 @@
 \@writefile{toc}{\contentsline {paragraph}{Linear Start (LS).}{3}{section*.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Random Noise.}{3}{section*.8}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}LSTM Baseline}{3}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Semi-Supervised Extension}{3}{subsection.3.3}\protected@file@percent }
 \citation{weston2015towards}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Semi-Supervised Extension}{4}{subsection.3.3}\protected@file@percent }
+\citation{sukhbaatar2015end}
+\citation{sukhbaatar2015end}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Experimental Setup}{4}{section.4}\protected@file@percent }
 \newlabel{sec:setup}{{4}{4}{Experimental Setup}{section.4}{}}
 \@writefile{toc}{\contentsline {paragraph}{Dataset.}{4}{section*.9}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Exploratory analysis of the bAbI dataset. Top-left: average story length per task (Task~3 is the longest). Top-right: answer frequency distribution, dominated by location words. Bottom panels: vocabulary coverage and question-length distribution.}}{4}{figure.2}\protected@file@percent }
-\newlabel{fig:eda}{{2}{4}{Exploratory analysis of the bAbI dataset. Top-left: average story length per task (Task~3 is the longest). Top-right: answer frequency distribution, dominated by location words. Bottom panels: vocabulary coverage and question-length distribution}{figure.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Evaluation metric.}{4}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hyperparameters.}{4}{section*.11}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Hyperparameters for all models.}}{4}{table.1}\protected@file@percent }
+\newlabel{tab:hyperparams}{{1}{4}{Hyperparameters for all models}{table.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Semi-supervised experiment.}{4}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results and Discussion}{4}{section.5}\protected@file@percent }
+\newlabel{sec:results}{{5}{4}{Results and Discussion}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Baseline: MemN2N vs. LSTM vs. Paper}{4}{subsection.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Test error (\%) on all 20 bAbI tasks. \textbf  {Ours (M)} is our MemN2N re-implementation; \textbf  {Ours (L)} is our LSTM baseline. \textbf  {Paper M / Paper L} are from \citet  {sukhbaatar2015end}. $\dagger $ marks tasks where our error exceeds the paper by more than 5 points.}}{5}{table.2}\protected@file@percent }
+\newlabel{tab:baseline}{{2}{5}{Test error (\%) on all 20 bAbI tasks. \textbf {Ours (M)} is our MemN2N re-implementation; \textbf {Ours (L)} is our LSTM baseline. \textbf {Paper M / Paper L} are from \citet {sukhbaatar2015end}. $\dagger $ marks tasks where our error exceeds the paper by more than 5 points}{table.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Training curves for Task~1. Left: cross-entropy loss. Right: accuracy. The shaded band marks the Linear Start phase (epochs 1--20); accuracy jumps to 100\% immediately after softmax is restored.}}{5}{figure.2}\protected@file@percent }
+\newlabel{fig:training}{{2}{5}{Training curves for Task~1. Left: cross-entropy loss. Right: accuracy. The shaded band marks the Linear Start phase (epochs 1--20); accuracy jumps to 100\% immediately after softmax is restored}{figure.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Why does Task 16 fail?}{5}{section*.13}\protected@file@percent }
 \citation{sukhbaatar2015end}
 \citation{sukhbaatar2015end}
-\@writefile{toc}{\contentsline {paragraph}{Evaluation metric.}{5}{section*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Hyperparameters.}{5}{section*.11}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Hyperparameters for all models.}}{5}{table.1}\protected@file@percent }
-\newlabel{tab:hyperparams}{{1}{5}{Hyperparameters for all models}{table.1}{}}
-\@writefile{toc}{\contentsline {paragraph}{Semi-supervised experiment.}{5}{section*.12}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Semi-supervised experiment settings.}}{5}{table.2}\protected@file@percent }
-\newlabel{tab:ss_setup}{{2}{5}{Semi-supervised experiment settings}{table.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Results and Discussion}{5}{section.5}\protected@file@percent }
-\newlabel{sec:results}{{5}{5}{Results and Discussion}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Baseline: MemN2N vs. LSTM vs. Paper}{5}{subsection.5.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Test error (\%) on all 20 bAbI tasks. \textbf  {Ours (MemN2N)} is our re-implementation; \textbf  {Ours (LSTM)} is our bidirectional LSTM reference. \textbf  {Paper M} and \textbf  {Paper L} are the MemN2N and LSTM results from \citet  {sukhbaatar2015end}. $\dagger $ marks tasks where our error exceeds the paper by more than 5 points.}}{6}{table.3}\protected@file@percent }
-\newlabel{tab:baseline}{{3}{6}{Test error (\%) on all 20 bAbI tasks. \textbf {Ours (MemN2N)} is our re-implementation; \textbf {Ours (LSTM)} is our bidirectional LSTM reference. \textbf {Paper M} and \textbf {Paper L} are the MemN2N and LSTM results from \citet {sukhbaatar2015end}. $\dagger $ marks tasks where our error exceeds the paper by more than 5 points}{table.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Per-task error comparison between our MemN2N (blue), our LSTM (orange), and the paper's MemN2N (dashed). Our model tracks the paper closely on most tasks; the main gaps are Tasks 3, 8, 16, and 20.}}{6}{figure.3}\protected@file@percent }
-\newlabel{fig:baseline}{{3}{6}{Per-task error comparison between our MemN2N (blue), our LSTM (orange), and the paper's MemN2N (dashed). Our model tracks the paper closely on most tasks; the main gaps are Tasks 3, 8, 16, and 20}{figure.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{Why does Task 16 fail?}{6}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Why does Task 19 fail?}{6}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Semi-Supervised Results}{6}{subsection.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Semi-Supervised MemN2N test error (\%) on Tasks 16, 17, and 19. \textbf  {MemN2N} is the unsupervised baseline. \textbf  {0\%--50\%} are mean errors over 3 runs at each labeling ratio. \textbf  {Paper} is from \citet  {sukhbaatar2015end}.}}{6}{table.3}\protected@file@percent }
+\newlabel{tab:ss_results}{{3}{6}{Semi-Supervised MemN2N test error (\%) on Tasks 16, 17, and 19. \textbf {MemN2N} is the unsupervised baseline. \textbf {0\%--50\%} are mean errors over 3 runs at each labeling ratio. \textbf {Paper} is from \citet {sukhbaatar2015end}}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Semi-supervised training curves for Tasks 16, 17, and 19 at each labeling ratio. Task 16 converges to near-zero error at 25\% labeled; Tasks 17 and 19 show no benefit, reflecting representational and architectural bottlenecks.}}{6}{figure.3}\protected@file@percent }
+\newlabel{fig:ss}{{3}{6}{Semi-supervised training curves for Tasks 16, 17, and 19 at each labeling ratio. Task 16 converges to near-zero error at 25\% labeled; Tasks 17 and 19 show no benefit, reflecting representational and architectural bottlenecks}{figure.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Task 16 --- supervision nearly solves it.}{6}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Task 17 --- supervision hurts slightly.}{6}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Task 19 --- supervision is irrelevant.}{6}{section*.17}\protected@file@percent }
 \citation{sukhbaatar2015end}
-\citation{sukhbaatar2015end}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Training curves for Task~1. Left: cross-entropy loss. Right: training and validation accuracy. The shaded band marks the Linear Start phase (epochs 1--20). After softmax is restored, the model converges quickly to 100\% accuracy.}}{7}{figure.4}\protected@file@percent }
-\newlabel{fig:training}{{4}{7}{Training curves for Task~1. Left: cross-entropy loss. Right: training and validation accuracy. The shaded band marks the Linear Start phase (epochs 1--20). After softmax is restored, the model converges quickly to 100\% accuracy}{figure.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Why does Task 19 fail?}{7}{section*.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Semi-Supervised Results}{7}{subsection.5.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Semi-Supervised MemN2N test error (\%) on Tasks 16, 17, and 19. \textbf  {MemN2N} is the unsupervised baseline from Section~6. \textbf  {0\%--50\%} are the mean test errors over 3 runs at each labeling ratio. \textbf  {Paper} is the MemN2N PE+LS result from \citet  {sukhbaatar2015end}.}}{7}{table.4}\protected@file@percent }
-\newlabel{tab:ss_results}{{4}{7}{Semi-Supervised MemN2N test error (\%) on Tasks 16, 17, and 19. \textbf {MemN2N} is the unsupervised baseline from Section~6. \textbf {0\%--50\%} are the mean test errors over 3 runs at each labeling ratio. \textbf {Paper} is the MemN2N PE+LS result from \citet {sukhbaatar2015end}}{table.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Semi-supervised training curves for Tasks 16, 17, and 19 at each labeling ratio. Task 16 converges to near-zero error once labeled support exceeds 25\%; Tasks 17 and 19 show no benefit from supervision, reflecting representational and architectural bottlenecks rather than an attentional one.}}{7}{figure.5}\protected@file@percent }
-\newlabel{fig:ss}{{5}{7}{Semi-supervised training curves for Tasks 16, 17, and 19 at each labeling ratio. Task 16 converges to near-zero error once labeled support exceeds 25\%; Tasks 17 and 19 show no benefit from supervision, reflecting representational and architectural bottlenecks rather than an attentional one}{figure.5}{}}
-\citation{sukhbaatar2015end}
-\@writefile{toc}{\contentsline {paragraph}{Task 16 --- supervision nearly solves it.}{8}{section*.15}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Hop-by-hop attention heatmaps for a Task~16 test example. Left: unsupervised model (attention is diffuse). Right: semi-supervised model with 50\% labeled training examples (attention is sharply concentrated on the induction rule sentence at hop 1). Supporting fact sentences are highlighted in green.}}{8}{figure.6}\protected@file@percent }
-\newlabel{fig:attn}{{6}{8}{Hop-by-hop attention heatmaps for a Task~16 test example. Left: unsupervised model (attention is diffuse). Right: semi-supervised model with 50\% labeled training examples (attention is sharply concentrated on the induction rule sentence at hop 1). Supporting fact sentences are highlighted in green}{figure.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Task 17 --- supervision hurts slightly.}{8}{section*.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Task 19 --- supervision is irrelevant.}{8}{section*.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{What the 0\% labeled condition reveals.}{8}{section*.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{8}{section.6}\protected@file@percent }
-\newlabel{sec:conclusion}{{6}{8}{Conclusion}{section.6}{}}
 \bibstyle{iclr2025_conference}
 \bibdata{iclr2025_conference}
 \bibcite{bahdanau2015neural}{{1}{2015}{{Bahdanau et~al.}}{{Bahdanau, Cho, and Bengio}}}
@@ -83,8 +72,18 @@
 \bibcite{hochreiter1997long}{{3}{1997}{{Hochreiter \& Schmidhuber}}{{Hochreiter and Schmidhuber}}}
 \bibcite{kumar2016ask}{{4}{2016}{{Kumar et~al.}}{{Kumar, Irsoy, Ondruska, Iyyer, Bradbury, Gulrajani, Zhong, Paulus, and Socher}}}
 \bibcite{sukhbaatar2015end}{{5}{2015}{{Sukhbaatar et~al.}}{{Sukhbaatar, Weston, Fergus, et~al.}}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Hop-by-hop attention heatmaps for a Task~16 test example. Left: unsupervised (diffuse attention). Right: 50\% labeled (sharply focused on the induction rule sentence at hop 1). Supporting facts are highlighted in green.}}{7}{figure.4}\protected@file@percent }
+\newlabel{fig:attn}{{4}{7}{Hop-by-hop attention heatmaps for a Task~16 test example. Left: unsupervised (diffuse attention). Right: 50\% labeled (sharply focused on the induction rule sentence at hop 1). Supporting facts are highlighted in green}{figure.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{What the 0\% labeled condition reveals.}{7}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{7}{section.6}\protected@file@percent }
+\newlabel{sec:conclusion}{{6}{7}{Conclusion}{section.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Limitations.}{7}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Future directions.}{7}{section*.20}\protected@file@percent }
 \bibcite{weston2014memory}{{6}{2014}{{Weston et~al.}}{{Weston, Chopra, and Bordes}}}
 \bibcite{weston2015towards}{{7}{2015}{{Weston et~al.}}{{Weston, Bordes, Chopra, Rush, Van~Merri{\"e}nboer, Joulin, and Mikolov}}}
-\@writefile{toc}{\contentsline {paragraph}{Limitations.}{9}{section*.19}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Future directions.}{9}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Additional Figures}{8}{appendix.A}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Exploratory analysis of the bAbI dataset. Top-left: average story length per task (Task~3 is the longest at up to 320 sentences). Top-right: answer frequency distribution, dominated by location words. Bottom panels: vocabulary coverage and question-length distribution.}}{8}{figure.5}\protected@file@percent }
+\newlabel{fig:eda}{{5}{8}{Exploratory analysis of the bAbI dataset. Top-left: average story length per task (Task~3 is the longest at up to 320 sentences). Top-right: answer frequency distribution, dominated by location words. Bottom panels: vocabulary coverage and question-length distribution}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Per-task error comparison between our MemN2N (blue), our LSTM (orange), and the paper's MemN2N (dashed grey). Our model tracks the paper closely on most tasks; the main gaps are Tasks 3, 8, 16, and 20.}}{9}{figure.6}\protected@file@percent }
+\newlabel{fig:baseline}{{6}{9}{Per-task error comparison between our MemN2N (blue), our LSTM (orange), and the paper's MemN2N (dashed grey). Our model tracks the paper closely on most tasks; the main gaps are Tasks 3, 8, 16, and 20}{figure.6}{}}
 \gdef \@abspage@last{9}

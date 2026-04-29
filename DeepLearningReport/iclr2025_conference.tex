@@ -41,7 +41,7 @@ Answering questions from a short passage of text sounds simple, but it requires 
 
 Memory Networks \citep{weston2014memory} and their end-to-end variant MemN2N \citep{sukhbaatar2015end} address this by keeping the story in an explicit memory and reading it multiple times. At each \emph{hop}, the model computes a soft attention over all stored sentences, produces a weighted summary, and updates its internal query state. After $K$ hops the updated state is used to predict the answer. The whole process is differentiable and trained end-to-end with backpropagation, making it a compact and interpretable architecture for structured QA.
 
-The bAbI benchmark \citep{weston2015towards} provides a controlled testbed: 20 tasks of increasing difficulty, each probing a specific reasoning skill (counting, coreference, path-finding, etc.), with a vocabulary of roughly 145 words so that the challenge is purely in the reasoning, not in language understanding. The original paper reports a mean test error of 6.6\% across tasks using the 10k training set; tasks 16 (basic induction), 17 (positional reasoning), and 19 (path finding) remain the hardest, with errors of 0\%, 40.7\%, and 66.5\% respectively.
+The bAbI benchmark \citep{weston2015towards} provides a controlled testbed: 20 tasks of increasing difficulty, each probing a specific reasoning skill (counting, coreference, path-finding, etc.), with a vocabulary of roughly 145 words so that the challenge is purely in the reasoning, not in language understanding. The original paper reports a mean test error of 6.6\% across tasks using the 10k training set; Tasks 16 (basic induction), 17 (positional reasoning), and 19 (path finding) remain the hardest, with errors of 0\%, 40.7\%, and 66.5\% respectively.
 
 \textbf{Research questions.} This project addresses two questions:
 \begin{enumerate}
@@ -67,7 +67,7 @@ The soft attention over memory in MemN2N is closely related to the alignment mec
 Dynamic Memory Networks \citep{kumar2016ask} are a more expressive successor to MemN2N: they encode sentences with an RNN rather than a bag-of-words, and use a gating mechanism at each memory pass. This gives stronger performance on several bAbI tasks, particularly those sensitive to word order, but at higher computational cost. Our work deliberately stays with the simpler MemN2N to study the specific effect of attention supervision without confounding factors from the encoder.
 
 \paragraph{Semi-supervised learning in NLP.}
-Using partially labeled data to guide a model's internal representations is a common idea in NLP. Self-training, consistency regularization, and auxiliary losses have all been applied to sequence labeling and reading comprehension. The closest work to ours is the original Memory Networks paper, where supporting-fact labels were used at training time to guide memory reads via a max-margin loss. We revisit this idea in a softer form. We applied a KL-divergence auxiliary loss only to labeled examples to measure how much guidance is needed and for which tasks.
+Using partially labeled data to guide a model's internal representations is a common idea in NLP. Self-training, consistency regularization, and auxiliary losses have all been applied to sequence labeling and reading comprehension. The closest work to ours is the original Memory Networks paper, where supporting-fact labels were used at training time to guide memory reads via a max-margin loss. We revisit this idea in a softer form: a KL-divergence auxiliary loss applied only to labeled examples, to measure how much guidance is needed and for which tasks.
 
 
 % ─────────────────────────────────────────────────────────────────
@@ -81,7 +81,7 @@ We re-implement the MemN2N architecture from \citet{sukhbaatar2015end} in PyTorc
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.78\linewidth]{images/MemN2N_scheme.png}
+\includegraphics[width=0.72\linewidth]{images/MemN2N_scheme.png}
 \end{center}
 \caption{MemN2N with $K=3$ hops and adjacent weight tying. The query $u^1$ is refined through three memory reads before the final linear prediction. $A^{k+1} = C^k$ under adjacent tying.}
 \label{fig:scheme}
@@ -93,11 +93,11 @@ p_i^k = \mathrm{Softmax}\!\left({u^k}^\top m_i^k\right), \qquad o^k = \sum_i p_i
 \]
 The final answer prediction is $\hat{a} = \mathrm{Softmax}(W\, u^{K+1})$, where $W^\top = C^K$ under adjacent tying.
 
-\paragraph{Encodings.} Sentence vectors are formed with \emph{position encoding}: each word embedding is scaled by a learned position-dependent coefficient before summing, so that word order affects the memory representation. We add \emph{temporal encodings} $T_A$, $T_C$ one embedding per memory slot to give the model a sense of which sentences occurred earlier or later in the story.
+\paragraph{Encodings.} Sentence vectors are formed with \emph{position encoding}: each word embedding is scaled by a position-dependent coefficient before summing, so that word order affects the memory representation. We add \emph{temporal encodings} $T_A$, $T_C$ --- one embedding per memory slot --- to give the model a sense of recency.
 
-\paragraph{Linear Start (LS).} We train without the attention softmax for the first 20 epochs. Without this schedule, the softmax produces near-uniform attention at initialization and the gradient signal is too weak for the embeddings to separate. Removing LS causes Task~1 error to remain above 80\% throughout training.
+\paragraph{Linear Start (LS).} We train without the attention softmax for the first 20 epochs. Without this schedule, the softmax produces near-uniform attention at initialization and the gradient signal is too weak for the embeddings to separate.
 
-\paragraph{Random Noise.} Following the paper, we randomly zero out 10\% of memory slots at each step. This prevents the model from overfitting to absolute temporal positions and improves generalization.
+\paragraph{Random Noise.} Following the paper, we randomly zero out 10\% of memory slots at each step to prevent overfitting to absolute temporal positions.
 
 \subsection{LSTM Baseline}
 
@@ -113,7 +113,7 @@ For each labeled training example we construct a binary mask $M \in \{0,1\}^{N_{
 \;+\;
 \lambda\; \underbrace{\mathrm{KL}\!\left(\hat{M}\;\|\;p^1\right)}_{\text{labeled examples only}},
 \]
-where $p^1$ is the hop-1 attention distribution and $\lambda = 0.5$. Both losses use \texttt{reduction=`sum'}, so $\lambda$ controls the share of the KL term in a consistent way regardless of batch size. At 50\% labeled, the KL term contributes roughly 25\% of the total loss. At 0\% labeled, no example satisfies the label condition, so the objective reduces exactly to the unsupervised baseline. The KL term is only activated after the Linear Start phase ends (epoch $> 20$), since raw LS scores are not a valid probability distribution.
+where $p^1$ is the hop-1 attention distribution and $\lambda = 0.5$. Both losses use \texttt{reduction=`sum'}, so $\lambda$ controls the KL share consistently regardless of batch size. At 50\% labeled the KL term contributes roughly 25\% of the total loss. At 0\% labeled no example satisfies the label condition, so the objective reduces exactly to the unsupervised baseline. The KL term is only activated after the Linear Start phase ends (epoch $> 20$), since raw LS scores are not a valid probability distribution.
 
 
 % ─────────────────────────────────────────────────────────────────
@@ -122,18 +122,10 @@ where $p^1$ is the hop-1 attention distribution and $\lambda = 0.5$. Both losses
 % ─────────────────────────────────────────────────────────────────
 
 \paragraph{Dataset.}
-We use the bAbI dataset \citep{weston2015towards}, specifically the 10k training set (en-10k). Each of the 20 tasks contains 10,000 training examples and 1,000 test examples. The vocabulary has approximately 145 unique words. Stories vary considerably in length: Task~1 uses about 5 sentences on average, while Task~3 can have up to 320. An overview of the dataset is shown in Figure~\ref{fig:eda}.
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.88\linewidth]{images/EDA_bAbI.png}
-\end{center}
-\caption{Exploratory analysis of the bAbI dataset. Top-left: average story length per task (Task~3 is the longest). Top-right: answer frequency distribution, dominated by location words. Bottom panels: vocabulary coverage and question-length distribution.}
-\label{fig:eda}
-\end{figure}
+We use the bAbI dataset \citep{weston2015towards}, specifically the 10k training set (en-10k). Each of the 20 tasks contains 10,000 training examples and 1,000 test examples, with a vocabulary of approximately 145 unique words. Stories vary considerably in length: Task~1 averages about 5 sentences, while Task~3 can reach 320 (see Figure~\ref{fig:eda} in the Appendix for a full dataset overview).
 
 \paragraph{Evaluation metric.}
-We report \textbf{test error rate} (the fraction of test questions answered incorrectly, as a percentage), following the original paper. For the semi-supervised experiment each condition is run 3 times with different random seeds and results are averaged, following common practice. The paper uses 10 restarts; we use 3 for computational reasons.
+We report \textbf{test error rate} (percentage of test questions answered incorrectly), following the original paper. For the semi-supervised experiments each condition is run 3 times with different random seeds and results are averaged. The paper uses 10 restarts; we use 3 for computational reasons.
 
 \paragraph{Hyperparameters.}
 Table~\ref{tab:hyperparams} lists the parameters shared across experiments.
@@ -147,42 +139,23 @@ Table~\ref{tab:hyperparams} lists the parameters shared across experiments.
 \toprule
 \textbf{Parameter} & \textbf{MemN2N / SS-MemN2N} & \textbf{LSTM} \\
 \midrule
-Embedding dim & 20 & 64 (hidden) \\
-Number of hops & 3 & --- \\
-Optimizer & SGD & Adam \\
-Initial learning rate & 0.005 & 0.001 \\
-LR schedule & halved every 25 epochs & halved every 25 epochs \\
-Gradient clipping & 40 & 40 \\
-Batch size & 32 & 32 \\
-Epochs & 100 & 100 \\
-Linear Start & 20 epochs & --- \\
-Random Noise & 10\% slots zeroed & --- \\
-Memory size cap & 50 slots (150 for Task~3) & --- \\
+Embedding dim       & 20                          & 64 (hidden) \\
+Number of hops      & 3                           & --- \\
+Optimizer           & SGD                         & Adam \\
+Initial LR          & 0.005                       & 0.001 \\
+LR schedule         & halved every 25 epochs      & halved every 25 epochs \\
+Gradient clipping   & 40                          & 40 \\
+Batch size          & 32                          & 32 \\
+Epochs              & 100                         & 100 \\
+Linear Start        & 20 epochs                   & --- \\
+Random Noise        & 10\% slots zeroed           & --- \\
+Memory size cap     & 50 slots (150 for Task~3)   & --- \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \paragraph{Semi-supervised experiment.}
-We evaluate the semi-supervised model on Tasks 16, 17, and 19. These three tasks represent qualitatively different failure modes of the unsupervised baseline (51.2\%, 41.6\%, and 58.6\% error respectively) and provide a natural test of the hypothesis that attention supervision helps only when the bottleneck is attentional. We test four labeling ratios: 0\%, 10\%, 25\%, and 50\% of training examples receive supporting-fact annotations. The auxiliary weight is $\lambda = 0.5$.
-
-\begin{table}[h]
-\centering
-\caption{Semi-supervised experiment settings.}
-\label{tab:ss_setup}
-\vspace{4pt}
-\begin{tabular}{ll}
-\toprule
-\textbf{Setting} & \textbf{Value} \\
-\midrule
-Tasks & 16 (basic-induction), 17 (positional-reasoning), 19 (path-finding) \\
-Labeling ratios & 0\%, 10\%, 25\%, 50\% \\
-Auxiliary weight $\lambda$ & 0.5 \\
-Supervision target & Hop-1 attention only \\
-Random restarts & 3 \\
-KL reduction & \texttt{sum} (same as CE loss) \\
-\bottomrule
-\end{tabular}
-\end{table}
+We evaluate the semi-supervised model on Tasks 16, 17, and 19 --- chosen because they represent three qualitatively different failure modes of the unsupervised baseline (51.2\%, 41.6\%, and 58.6\% error respectively). We test four labeling ratios: 0\%, 10\%, 25\%, and 50\% of training examples, with auxiliary weight $\lambda = 0.5$ and KL supervision applied to hop-1 attention only.
 
 
 % ─────────────────────────────────────────────────────────────────
@@ -194,7 +167,7 @@ KL reduction & \texttt{sum} (same as CE loss) \\
 
 \begin{table}[h]
 \centering
-\caption{Test error (\%) on all 20 bAbI tasks. \textbf{Ours (MemN2N)} is our re-implementation; \textbf{Ours (LSTM)} is our bidirectional LSTM reference. \textbf{Paper M} and \textbf{Paper L} are the MemN2N and LSTM results from \citet{sukhbaatar2015end}. $\dagger$ marks tasks where our error exceeds the paper by more than 5 points.}
+\caption{Test error (\%) on all 20 bAbI tasks. \textbf{Ours (M)} is our MemN2N re-implementation; \textbf{Ours (L)} is our LSTM baseline. \textbf{Paper M / Paper L} are from \citet{sukhbaatar2015end}. $\dagger$ marks tasks where our error exceeds the paper by more than 5 points.}
 \label{tab:baseline}
 \vspace{4pt}
 \small
@@ -202,105 +175,97 @@ KL reduction & \texttt{sum} (same as CE loss) \\
 \toprule
 \textbf{Task} & \textbf{Name} & \textbf{Ours (M)} & \textbf{Ours (L)} & \textbf{Paper M} & \textbf{Paper L} \\
 \midrule
-1  & single-supporting-fact   &  0.0 & 47.9 &  0.0 &  0.0 \\
-2  & two-supporting-facts     &  1.7 & 60.9 &  0.3 & 81.9 \\
-3  & three-supporting-facts   & 16.5$^\dagger$ & 56.4 &  9.3 & 83.1 \\
-4  & two-arg-relations        &  0.0 & 32.1 &  0.0 & 36.6 \\
-5  & three-arg-relations      &  0.6 & 18.4 &  0.8 &  1.2 \\
-6  & yes-no-questions         &  0.2 & 50.8 &  0.1 & 51.8 \\
-7  & counting                 &  7.7 & 19.3 &  3.2 & 24.9 \\
-8  & lists-sets               &  7.1$^\dagger$ & 21.6 &  0.9 & 22.8 \\
-9  & simple-negation          &  0.2 & 38.0 &  0.3 & 20.2 \\
-10 & indefinite-knowledge     &  0.3 & 52.6 &  0.0 & 30.1 \\
-11 & basic-coreference        &  0.0 & 29.1 &  0.0 & 10.3 \\
-12 & conjunction              &  0.0 & 24.3 &  0.0 & 23.4 \\
-13 & compound-coreference     &  0.0 &  5.6 &  0.0 &  6.1 \\
-14 & time-reasoning           &  1.4 & 50.3 &  0.0 & 81.0 \\
-15 & basic-deduction          &  0.0 & 41.7 &  0.0 & 78.7 \\
-16 & basic-induction          & 51.2$^\dagger$ & 51.2 &  0.0 & 50.1 \\
-17 & positional-reasoning     & 41.6 & 54.1 & 40.7 & 50.1 \\
-18 & size-reasoning           &  9.1 &  8.9 &  9.2 & 45.8 \\
-19 & path-finding             & 58.6 & 89.3 & 66.5 & 90.3 \\
-20 & agents-motivations       & 19.1$^\dagger$ &  1.8 &  0.0 &  2.1 \\
+1  & single-supporting-fact   &  0.0          & 47.9 &  0.0 &  0.0 \\
+2  & two-supporting-facts     &  1.7          & 60.9 &  0.3 & 81.9 \\
+3  & three-supporting-facts   & 16.5$^\dagger$& 56.4 &  9.3 & 83.1 \\
+4  & two-arg-relations        &  0.0          & 32.1 &  0.0 & 36.6 \\
+5  & three-arg-relations      &  0.6          & 18.4 &  0.8 &  1.2 \\
+6  & yes-no-questions         &  0.2          & 50.8 &  0.1 & 51.8 \\
+7  & counting                 &  7.7          & 19.3 &  3.2 & 24.9 \\
+8  & lists-sets               &  7.1$^\dagger$& 21.6 &  0.9 & 22.8 \\
+9  & simple-negation          &  0.2          & 38.0 &  0.3 & 20.2 \\
+10 & indefinite-knowledge     &  0.3          & 52.6 &  0.0 & 30.1 \\
+11 & basic-coreference        &  0.0          & 29.1 &  0.0 & 10.3 \\
+12 & conjunction              &  0.0          & 24.3 &  0.0 & 23.4 \\
+13 & compound-coreference     &  0.0          &  5.6 &  0.0 &  6.1 \\
+14 & time-reasoning           &  1.4          & 50.3 &  0.0 & 81.0 \\
+15 & basic-deduction          &  0.0          & 41.7 &  0.0 & 78.7 \\
+16 & basic-induction          & 51.2$^\dagger$& 51.2 &  0.0 & 50.1 \\
+17 & positional-reasoning     & 41.6          & 54.1 & 40.7 & 50.1 \\
+18 & size-reasoning           &  9.1          &  8.9 &  9.2 & 45.8 \\
+19 & path-finding             & 58.6          & 89.3 & 66.5 & 90.3 \\
+20 & agents-motivations       & 19.1$^\dagger$&  1.8 &  0.0 &  2.1 \\
 \midrule
 \textbf{Mean} & & \textbf{10.8} & \textbf{37.7} & \textbf{6.6} & \textbf{39.5} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:baseline} shows per-task results across all 20 bAbI tasks. Our MemN2N achieves a mean test error of 10.8\%, compared to 6.6\% in the paper. The LSTM reaches 37.7\%, in line with the paper's 39.5\%. The broad ordering is well reproduced: MemN2N is substantially better than LSTM on tasks requiring multi-hop chaining (Tasks 2, 3, 6, 9, 14) and at most tasks overall. The gap with the paper comes from four tasks where our model struggles noticeably: Task 3 (16.5\% vs. 9.3\%), Task 8 (7.1\% vs. 0.9\%), Task 16 (51.2\% vs. 0.0\%), and Task 20 (19.1\% vs. 0.0\%).
+Table~\ref{tab:baseline} shows per-task results across all 20 bAbI tasks (Figure~\ref{fig:baseline} in the Appendix gives a visual comparison). Our MemN2N achieves a mean test error of 10.8\%, compared to 6.6\% in the paper. The LSTM reaches 37.7\%, in line with the paper's 39.5\%. The broad ordering is well reproduced: MemN2N is substantially better than LSTM on tasks requiring multi-hop chaining (Tasks 2, 3, 6, 9, 14) and at most tasks overall. The gap with the paper comes from four tasks: Task 3 (16.5\% vs.\ 9.3\%), Task 8 (7.1\% vs.\ 0.9\%), Task 16 (51.2\% vs.\ 0.0\%), and Task 20 (19.1\% vs.\ 0.0\%). These are exactly the tasks that benefit most from joint multi-task training, which the paper uses but we do not.
+
+The Linear Start phase is critical. Figure~\ref{fig:training} shows that once the softmax is reintroduced at epoch 20, training accuracy on Task~1 converges to 100\% and loss continues to decrease for the remaining 80 epochs. The LSTM never converges below 58\% training accuracy, confirming that sequential processing alone cannot handle even simple two-step fact retrieval.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.88\linewidth]{images/baseline_comparison.png}
+\includegraphics[width=0.85\linewidth]{images/training_baseline.png}
 \end{center}
-\caption{Per-task error comparison between our MemN2N (blue), our LSTM (orange), and the paper's MemN2N (dashed). Our model tracks the paper closely on most tasks; the main gaps are Tasks 3, 8, 16, and 20.}
-\label{fig:baseline}
-\end{figure}
-
-The training behaviour is consistent with what the paper reports: the Linear Start phase is critical. Figure~\ref{fig:training} shows that once the softmax is reintroduced at epoch 20, training accuracy converges to 100\% on Task~1 and loss continues to decrease for the remaining 80 epochs. The LSTM does not converge below 58\% training accuracy on Task~1, confirming that sequential processing alone cannot handle even simple two-step fact retrieval.
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.88\linewidth]{images/training_baseline.png}
-\end{center}
-\caption{Training curves for Task~1. Left: cross-entropy loss. Right: training and validation accuracy. The shaded band marks the Linear Start phase (epochs 1--20). After softmax is restored, the model converges quickly to 100\% accuracy.}
+\caption{Training curves for Task~1. Left: cross-entropy loss. Right: accuracy. The shaded band marks the Linear Start phase (epochs 1--20); accuracy jumps to 100\% immediately after softmax is restored.}
 \label{fig:training}
 \end{figure}
 
 \paragraph{Why does Task 16 fail?}
-Task 16 (basic induction) asks the model to identify a pattern from a small set of examples (e.g.\ ``Wolves are afraid of cats. Cats are afraid of mice.'' $\rightarrow$ ``What are wolves afraid of?''). The paper achieves 0\% error on this task with MemN2N PE+LS using 10k training. Our single-run baseline gives 51.2\% which is essentially random guessing. The failure is not due to insufficient reasoning capacity; a 3-hop model is enough in principle. The more likely explanation is that the rule sentence is hard to locate without some guidance on where to look.
+Task 16 (basic induction) asks the model to identify a rule pattern (e.g.\ ``Wolves are afraid of cats. Cats are afraid of mice.'' $\rightarrow$ ``What are wolves afraid of?''). The paper achieves 0\% with MemN2N PE+LS on 10k training; our single-run baseline gives 51.2\% --- essentially random guessing. The failure is not due to insufficient reasoning capacity but to the model never locating the rule sentence to begin with.
 
 \paragraph{Why does Task 19 fail?}
-Task 19 (path finding) requires chaining a path of 5 or more locations together, but our 3-hop model can at most chain 3 steps. The paper's 66.5\% error on this task confirms the architecture is under-powered, and our 58.6\% is actually slightly better likely because the paper's stronger regularization forces the model to generalize, while our single-task training allows some memorization.
+Task 19 (path finding) requires chaining 5+ locations together, but a 3-hop model can at most chain 3 steps. The paper's 66.5\% error confirms the architecture is under-powered for this task regardless of training.
 
 \subsection{Semi-Supervised Results}
 
 \begin{table}[h]
 \centering
-\caption{Semi-Supervised MemN2N test error (\%) on Tasks 16, 17, and 19. \textbf{MemN2N} is the unsupervised baseline from Section~6. \textbf{0\%--50\%} are the mean test errors over 3 runs at each labeling ratio. \textbf{Paper} is the MemN2N PE+LS result from \citet{sukhbaatar2015end}.}
+\caption{Semi-Supervised MemN2N test error (\%) on Tasks 16, 17, and 19. \textbf{MemN2N} is the unsupervised baseline. \textbf{0\%--50\%} are mean errors over 3 runs at each labeling ratio. \textbf{Paper} is from \citet{sukhbaatar2015end}.}
 \label{tab:ss_results}
 \vspace{4pt}
-\begin{tabular}{rlrrrrrl}
+\begin{tabular}{rlrrrrr}
 \toprule
 \textbf{Task} & \textbf{Name} & \textbf{MemN2N} & \textbf{0\%} & \textbf{10\%} & \textbf{25\%} & \textbf{50\%} & \textbf{Paper} \\
 \midrule
-16 & basic-induction     & 51.2 & 35.3 & 34.5 & \textbf{0.4} & \textbf{0.4} & 0.0 \\
+16 & basic-induction      & 51.2 & 35.3 & 34.5 & \textbf{0.4} & \textbf{0.4} & 0.0 \\
 17 & positional-reasoning & 41.6 & 38.8 & 50.1 & 52.6 & 52.7 & 40.7 \\
-19 & path-finding        & 58.6 & 62.2 & 63.3 & 66.7 & 66.1 & 66.5 \\
+19 & path-finding         & 58.6 & 62.2 & 63.3 & 66.7 & 66.1 & 66.5 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The semi-supervised results in Table~\ref{tab:ss_results} and Figure~\ref{fig:ss} show three distinct patterns.
+Table~\ref{tab:ss_results} and Figure~\ref{fig:ss} show three distinct patterns across the three tasks.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.92\linewidth]{images/semi-supervised-train.png}
+\includegraphics[width=0.88\linewidth]{images/semi-supervised-train.png}
 \end{center}
-\caption{Semi-supervised training curves for Tasks 16, 17, and 19 at each labeling ratio. Task 16 converges to near-zero error once labeled support exceeds 25\%; Tasks 17 and 19 show no benefit from supervision, reflecting representational and architectural bottlenecks rather than an attentional one.}
+\caption{Semi-supervised training curves for Tasks 16, 17, and 19 at each labeling ratio. Task 16 converges to near-zero error at 25\% labeled; Tasks 17 and 19 show no benefit, reflecting representational and architectural bottlenecks.}
 \label{fig:ss}
 \end{figure}
 
 \paragraph{Task 16 --- supervision nearly solves it.}
-At 25\% labeled, error drops from 51.2\% to 0.4\% very close to matching the paper's 0.0\%. The improvement is sharp and appears between 10\% and 25\% labeled, suggesting there is a critical mass of annotated examples below which the model cannot reliably learn where the rule sentence is, but above which it converges cleanly. The attention visualization in Figure~\ref{fig:attn} shows that the supervised model (50\% labeled) concentrates its hop-1 attention on the induction rule sentence, while the unsupervised model spreads it almost uniformly across all sentences.
+At 25\% labeled, error drops from 51.2\% to 0.4\%, nearly matching the paper's 0.0\%. The improvement is sharp and concentrated between 10\% and 25\% labeled, suggesting a critical mass of examples is needed before the model reliably learns to locate the rule sentence. The attention visualization (Figure~\ref{fig:attn}) confirms this: the supervised model concentrates its hop-1 attention on the induction rule sentence, while the unsupervised model spreads it nearly uniformly.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.90\linewidth]{images/attention_semi_supervised.png}
+\includegraphics[width=0.88\linewidth]{images/attention_semi_supervised.png}
 \end{center}
-\caption{Hop-by-hop attention heatmaps for a Task~16 test example. Left: unsupervised model (attention is diffuse). Right: semi-supervised model with 50\% labeled training examples (attention is sharply concentrated on the induction rule sentence at hop 1). Supporting fact sentences are highlighted in green.}
+\caption{Hop-by-hop attention heatmaps for a Task~16 test example. Left: unsupervised (diffuse attention). Right: 50\% labeled (sharply focused on the induction rule sentence at hop 1). Supporting facts are highlighted in green.}
 \label{fig:attn}
 \end{figure}
 
 \paragraph{Task 17 --- supervision hurts slightly.}
-Error rises from 41.6\% (baseline) to 52.7\% at 50\% labeled. Task 17 asks the model to reason about spatial relations (``X is left of Y. Y is above Z. What is left of Y?''). A bag-of-words sentence encoder treats ``X is left of Y'' and ``Y is left of X'' identically, so even if the model perfectly attends to the correct sentence, it cannot extract the spatial relation from it. Forcing the model to concentrate its attention on the relevant sentence via KL loss seems to interfere with whatever approximate strategy the model had found unsupervised. The key takeaway is that if the representation is the bottleneck, better attention makes things worse, not better.
+Error rises from 41.6\% to 52.7\% at 50\% labeled. Task 17 requires reasoning about spatial relations (``X is left of Y''). A bag-of-words encoder treats ``X is left of Y'' and ``Y is left of X'' identically, so even perfect attention cannot extract the spatial relation. Forcing the model to focus on the correct sentence via KL loss interferes with whatever approximate strategy it had found unsupervised --- confirming that when the representation is the bottleneck, better attention makes things worse.
 
 \paragraph{Task 19 --- supervision is irrelevant.}
-Error increases monotonically from 58.6\% to 66.7\% at 25\% labeled, essentially matching the paper's 66.5\% at that point. Path finding requires chaining 5+ locations across hops, but a 3-hop architecture simply cannot do this. Directing the model's attention to supporting facts does not add hops, so it cannot compensate for the architectural capacity gap.
+Error increases monotonically to 66.7\% at 25\% labeled, essentially matching the paper's 66.5\% at that point. Path finding requires chaining 5+ steps but a 3-hop model cannot do this. Directing attention to supporting facts does not add hops and cannot compensate for the architectural capacity gap.
 
 \paragraph{What the 0\% labeled condition reveals.}
-The 0\% labeled condition (no KL term at all) gives 35.3\% on Task 16, 38.8\% on Task 17, and 62.2\% on Task 19, compared to the single-run baseline of 51.2\%, 41.6\%, and 58.6\%. The differences stem from using the mean of 3 runs versus a single run: Task 16 in particular has high variance between restarts, so averaging is important.
+At 0\% labeled (no KL term at all), errors are 35.3\%, 38.8\%, and 62.2\% for Tasks 16, 17, and 19 respectively, vs.\ the single-run baseline of 51.2\%, 41.6\%, and 58.6\%. The differences reflect run-to-run variance rather than any algorithmic difference: Task 16 in particular has high variance between restarts, and the 3-run average is simply more stable.
 
 
 % ─────────────────────────────────────────────────────────────────
@@ -308,17 +273,38 @@ The 0\% labeled condition (no KL term at all) gives 35.3\% on Task 16, 38.8\% on
 \label{sec:conclusion}
 % ─────────────────────────────────────────────────────────────────
 
-We have re-implemented MemN2N in PyTorch and reproduced the key results of \citet{sukhbaatar2015end} on bAbI, achieving a mean test error of 10.8\% against the paper's 6.6\%. The remaining gap is concentrated on a handful of tasks (3, 8, 16, 20) and is consistent with the absence of joint multi-task training, which the paper uses to stabilize hard tasks. Our LSTM baseline reproduces the paper's LSTM results closely, confirming that the benefit of explicit memory is real and not an artifact of hyperparameter tuning.
+We re-implemented MemN2N in PyTorch and reproduced the key results of \citet{sukhbaatar2015end} on bAbI, achieving a mean test error of 10.8\% against the paper's 6.6\%. The remaining gap is concentrated on tasks (3, 8, 16, 20) that benefit from joint multi-task training, which the paper uses but we do not. Our LSTM baseline closely matches the paper's LSTM results, confirming that the benefit of explicit memory is real.
 
-The semi-supervised extension provides a clear answer to the diagnostic question we posed: attention supervision helps only when the failure is attentional. For Task 16, 25\% labeled examples nearly closes the gap to the paper. For Tasks 17 and 19, supervision makes things slightly worse because the bottleneck is representational (bag-of-words cannot encode spatial relations) or architectural (3 hops cannot chain 5 steps).
+The semi-supervised extension answers the diagnostic question we posed: attention supervision helps only when the failure is attentional. For Task 16, 25\% labeled examples nearly closes the gap to the paper's 0.0\%. For Tasks 17 and 19, supervision makes things slightly worse because the bottleneck is representational (bag-of-words cannot encode spatial relations) or architectural (3 hops cannot chain 5 steps).
 
 \paragraph{Limitations.}
-This study trains each task independently rather than jointly, which the paper shows can improve hard tasks by borrowing signal across tasks. We also use a single embedding dimension of 20, which may be a bottleneck for complex tasks. Finally, the 3-run average is noisier than the paper's 10-run average, particularly for high-variance tasks like Task 16.
+This study trains each task independently rather than jointly. We use embedding dimension 20, which may limit capacity on harder tasks. The 3-run average is noisier than the paper's 10-run average, particularly for high-variance tasks like Task 16.
 
 \paragraph{Future directions.}
-Three extensions seem most promising: (1) joint multi-task training to improve Tasks 3, 8, and 20; (2) replacing the bag-of-words sentence encoder with a position-aware encoder (e.g.\ a small RNN or the ReLU variant from the paper) to give Task 17 a chance; and (3) increasing the number of hops for path-finding tasks, or using a recurrent hop architecture that adaptively decides how many reads to perform.
+Three extensions seem most promising: (1) joint multi-task training to improve Tasks 3, 8, and 20; (2) replacing the bag-of-words encoder with a position-aware encoder (e.g.\ the ReLU variant from the paper) to give Task 17 a chance; and (3) increasing the number of hops or using an adaptive hop architecture for path-finding tasks.
 
 \bibliographystyle{iclr2025_conference}
 \bibliography{iclr2025_conference}
+
+% ─────────────────────────────────────────────────────────────────
+\appendix
+\section{Additional Figures}
+% ─────────────────────────────────────────────────────────────────
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.88\linewidth]{images/EDA_bAbI.png}
+\end{center}
+\caption{Exploratory analysis of the bAbI dataset. Top-left: average story length per task (Task~3 is the longest at up to 320 sentences). Top-right: answer frequency distribution, dominated by location words. Bottom panels: vocabulary coverage and question-length distribution.}
+\label{fig:eda}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.88\linewidth]{images/baseline_comparison.png}
+\end{center}
+\caption{Per-task error comparison between our MemN2N (blue), our LSTM (orange), and the paper's MemN2N (dashed grey). Our model tracks the paper closely on most tasks; the main gaps are Tasks 3, 8, 16, and 20.}
+\label{fig:baseline}
+\end{figure}
 
 \end{document}

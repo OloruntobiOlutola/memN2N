@@ -44,7 +44,7 @@
 %\topmargin 0 true pt           % Nominal distance from top of page to top of
 %\topmargin 0.125in
 \topmargin -0.625in
-\addtolength{\headsep}{0.25in}
+\addtolength{\headsep}{0pt}
 \textheight 9.0 true in       % Height of text (including footnotes & figures)
 \textwidth 5.5 true in        % Width of text line.
 \widowpenalty=10000
@@ -78,6 +78,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead{}
+\renewcommand{\headrulewidth}{0pt}
 
 % Title (includes both anonimized and non-anonimized versions)
 \def\@maketitle{\vbox{\hsize\textwidth
@@ -85,7 +86,7 @@
 {\LARGE\sc \@title\par}
 \vskip 0.1in
 \ificlrfinal
-    \lhead{Published as a conference paper at ICLR 2025}
+    \lhead{}
     \def\And{\end{tabular}\hfil\linebreak[0]\hfil
             \begin{tabular}[t]{c}\bf\rule{\z@}{24pt}\ignorespaces}%
   \def\AND{\end{tabular}\hfil\linebreak[4]\hfil

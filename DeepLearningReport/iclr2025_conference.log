@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.27)  29 APR 2026 22:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.27)  29 APR 2026 23:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -422,95 +422,127 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 30.
 
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1{/usr/local/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-{/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/base/8r.enc}
+) [1
 
-]
-<images/MemN2N_scheme.png, id=87, 944.52875pt x 1024.82875pt>
+{/usr/local/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/us
+r/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+<images/MemN2N_scheme.png, id=91, 944.52875pt x 1024.82875pt>
 File: images/MemN2N_scheme.png Graphic file (type png)
 <use images/MemN2N_scheme.png>
 Package pdftex.def Info: images/MemN2N_scheme.png  used on input line 84.
-(pdftex.def)             Requested size: 310.0378pt x 336.39621pt.
+(pdftex.def)             Requested size: 286.18967pt x 310.51596pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[2]
-Underfull \vbox (badness 8038) has occurred while \output is active []
-
- [3 <./images/MemN2N_scheme.png>]
+[2] [3 <./images/MemN2N_scheme.png>]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
 16.
 
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-<images/EDA_bAbI.png, id=122, 974.1996pt x 800.0289pt>
-File: images/EDA_bAbI.png Graphic file (type png)
-<use images/EDA_bAbI.png>
-Package pdftex.def Info: images/EDA_bAbI.png  used on input line 129.
-(pdftex.def)             Requested size: 349.78873pt x 287.25333pt.
- [4 <./images/EDA_bAbI.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<images/baseline_comparison.png, id=137, 1148.3703pt x 711.8595pt>
-File: images/baseline_comparison.png Graphic file (type png)
-<use images/baseline_comparison.png>
-Package pdftex.def Info: images/baseline_comparison.png  used on input line 235
-.
-(pdftex.def)             Requested size: 349.78873pt x 216.82898pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<images/training_baseline.png, id=139, 1003.8303pt x 322.3242pt>
+[4]
+<images/training_baseline.png, id=147, 1003.8303pt x 322.3242pt>
 File: images/training_baseline.png Graphic file (type png)
 <use images/training_baseline.png>
-Package pdftex.def Info: images/training_baseline.png  used on input line 245.
-(pdftex.def)             Requested size: 349.78873pt x 112.31349pt.
+Package pdftex.def Info: images/training_baseline.png  used on input line 210.
+(pdftex.def)             Requested size: 337.86465pt x 108.48708pt.
+ [5 <./images/training_baseline.png>]
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.231 ...f{10\%} & \textbf{25\%} & \textbf{50\%} &
+                                                   \textbf{Paper} \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.233 ....3 & 34.5 & \textbf{0.4} & \textbf{0.4} &
+                                                   0.0 \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
 
-[5]
-Underfull \vbox (badness 2707) has occurred while \output is active []
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.234 ...ning & 41.6 & 38.8 & 50.1 & 52.6 & 52.7 &
+                                                   40.7 \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
 
- [6 <./images/baseline_comparison.png>]
-<images/semi-supervised-train.png, id=166, 857.8449pt x 298.4751pt>
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.235 ...     & 58.6 & 62.2 & 63.3 & 66.7 & 66.1 &
+                                                   66.5 \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+<images/semi-supervised-train.png, id=163, 857.8449pt x 298.4751pt>
 File: images/semi-supervised-train.png Graphic file (type png)
 <use images/semi-supervised-train.png>
 Package pdftex.def Info: images/semi-supervised-train.png  used on input line 2
-79.
-(pdftex.def)             Requested size: 365.68546pt x 127.23508pt.
- [7 <./images/training_baseline.png> <./images/semi-supervised-train.png>]
-<images/attention_semi_supervised.png, id=178, 927.9468pt x 289.8027pt>
+44.
+(pdftex.def)             Requested size: 349.78873pt x 121.70609pt.
+<images/attention_semi_supervised.png, id=165, 927.9468pt x 289.8027pt>
 File: images/attention_semi_supervised.png Graphic file (type png)
 <use images/attention_semi_supervised.png>
 Package pdftex.def Info: images/attention_semi_supervised.png  used on input li
-ne 290.
-(pdftex.def)             Requested size: 357.73405pt x 111.72252pt.
- [8 <./images/attention_semi_supervised.png>]
-(./iclr2025_conference.bbl
+ne 255.
+(pdftex.def)             Requested size: 349.78873pt x 109.23734pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[6 <./images/semi-supervised-train.png>] (./iclr2025_conference.bbl [7 <./image
+s/attention_semi_supervised.png>]
 Underfull \hbox (badness 1436) in paragraph at lines 41--44
 []\OT1/ptm/m/n/10 Jason We-ston, Sumit Chopra, and An-toine Bor-des.  Mem-ory n
 et-works.  \OT1/ptm/m/it/10 arXiv preprint
  []
 
-) [9] (./iclr2025_conference.aux)
+)
+<images/EDA_bAbI.png, id=190, 974.1996pt x 800.0289pt>
+File: images/EDA_bAbI.png Graphic file (type png)
+<use images/EDA_bAbI.png>
+Package pdftex.def Info: images/EDA_bAbI.png  used on input line 296.
+(pdftex.def)             Requested size: 349.78873pt x 287.25333pt.
+<images/baseline_comparison.png, id=191, 1148.3703pt x 711.8595pt>
+File: images/baseline_comparison.png Graphic file (type png)
+<use images/baseline_comparison.png>
+Package pdftex.def Info: images/baseline_comparison.png  used on input line 304
+.
+(pdftex.def)             Requested size: 349.78873pt x 216.82898pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[8 <./images/EDA_bAbI.png>] [9 <./images/baseline_comparison.png>]
+(./iclr2025_conference.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `iclr2025_conference.out' has not changed.
-(rerunfilecheck)             Checksum: 576E83DF933D91E02293B38A89E0C121;1539.
+(rerunfilecheck)             Checksum: CF9A721A34D444B4C950A821940D1CAD;1677.
  ) 
 Here is how much of TeX's memory you used:
  11210 strings out of 469006
- 165983 string characters out of 5454813
- 602627 words of memory out of 5000000
+ 165984 string characters out of 5454813
+ 601275 words of memory out of 5000000
  39675 multiletter control sequences out of 15000+600000
  657258 words of font info for 101 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 75i,12n,90p,1294b,529s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,90p,1294b,569s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex1
 0.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/
@@ -524,10 +556,10 @@ ublic/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type
 rw/times/utmb8a.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/urw/ti
 mes/utmr8a.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/urw/times/u
 tmri8a.pfb>
-Output written on iclr2025_conference.pdf (9 pages, 539125 bytes).
+Output written on iclr2025_conference.pdf (9 pages, 536967 bytes).
 PDF statistics:
- 267 PDF objects out of 1000 (max. 8388607)
- 213 compressed objects within 3 object streams
+ 271 PDF objects out of 1000 (max. 8388607)
+ 217 compressed objects within 3 object streams
  61 named destinations out of 1000 (max. 500000)
- 119 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 127 words of extra memory for PDF output out of 10000 (max. 10000000)
 
